@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adobe Express Add-On Simulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #controls {
+            margin: 20px;
+            text-align: center;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 18px;
+            width: 50%;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        #document {
+            margin: 20px auto;
+            width: 70%;
+            height: 600px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            background-color: #f5f5f5;
+        }
+        .text-box {
+            position: absolute;
+            font-size: 24px;
+            font-weight: bold;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="controls">
+        <h1>Enter Text to encipher with atbash</h1>
+        <input type="text" id="userInput" placeholder="Enter your text">
+        <button onclick="addTextToDocument()">Encipher Text</button>
+    </div>
+
+    <!-- This is the simulated 'document' area -->
+    <div id="document">
+    </div>
+
+    <script>
+		function atbashCipher(text) {
+			const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+			const reversedAlphabet = alphabet.split('').reverse().join('');
+			return text.toUpperCase().split('').map(char => {
+			const index = alphabet.indexOf(char);
+			return index !== -1 ? reversedAlphabet[index] : char;
+			}).join('');
+		}
+	
+        // Function to insert the input text into the document
+        function addTextToDocument() {
+            // Get the user input text
+            var inputText = document.getElementById('userInput').value;
+
+            // If input is empty, do nothing
+            if (!inputText) {
+                alert('Please enter some text!');
+                return;
+            }
+
+            // Clear the previous content of the document
+            var documentElement = document.getElementById('document');
+            documentElement.innerHTML = '';
+
+            // Create a new div to hold the text
+            var textDiv = document.createElement('div');
+            textDiv.className = 'text-box';
+            textDiv.textContent = atbashCipher(inputText);
+
+            // Position the text within the document at the top-left
+            textDiv.style.left = '10px';
+            textDiv.style.top = '10px';
+
+            // Append the new text div to the document
+            documentElement.appendChild(textDiv);
+
+            // Clear the input field for the next entry
+            document.getElementById('userInput').value = '';
+        }
+    </script>
+
+</body>
+</html>
